@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reservas del Salon de belleza</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>Reservas del Salon de belleza</h2>
+
+  <div class="container-links">
+    <a href="agregar.html">Agregar reserva</a>
+    <a href="logout.html">Cerrar sesión</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Servicio</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="reservas-tbody"></tbody>
+  </table>
+
+  <script>
+    function cargarReservas() {
+      const tbody = document.getElementById('reservas-tbody');
+      const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+
+      tbody.innerHTML = '';
+
+      if (reservas.length === 0) {
+        tbody.innerHTML = `
+          <tr><td colspan="6" style="text-align:center;">No hay reservas registradas</td></tr>
+        `;
+        return;
+      }
+
+      reservas.forEach((reserva, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${reserva.cliente}</td>
+            <td>${reserva.servicio}</td>
+            <td>${reserva.fecha}</td>
+            <td>${reserva.hora}</td>
+            <td>
+              <a href="editar.html?id=${index}">Editar</a>
+              <a href="eliminar.html?id=${index}">Eliminar</a>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    window.onload = cargarReservas;
+  </script>
+</body>
+</html>
