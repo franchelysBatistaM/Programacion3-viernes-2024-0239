@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Reserva</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Agregar Reserva</h2>
+
+  <form id="formAgregar">
+    <label>Cliente:</label>
+    <input type="text" id="cliente" required>
+
+    <label>Servicio:</label>
+    <input type="text" id="servicio" required>
+
+    <label>Fecha:</label>
+    <input type="date" id="fecha" required>
+
+    <label>Hora:</label>
+    <input type="time" id="hora" required>
+
+    <button type="submit">Agregar</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("formAgregar");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const cliente = document.getElementById("cliente").value.trim();
+      const servicio = document.getElementById("servicio").value.trim();
+      const fecha = document.getElementById("fecha").value;
+      const hora = document.getElementById("hora").value;
+
+      const reserva = { cliente, servicio, fecha, hora };
+
+      let reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+      reservas.push(reserva);
+      localStorage.setItem("reservas", JSON.stringify(reservas));
+
+      alert("Reserva agregada exitosamente.");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
