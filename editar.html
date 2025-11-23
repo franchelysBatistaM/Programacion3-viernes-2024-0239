@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Editar Reserva</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>Editar Reserva</h2>
+
+  <form id="formEditar">
+    <label>Cliente:</label>
+    <input type="text" id="cliente" required />
+
+    <label>Servicio:</label>
+    <input type="text" id="servicio" required />
+
+    <label>Fecha:</label>
+    <input type="date" id="fecha" required />
+
+    <label>Hora:</label>
+    <input type="time" id="hora" required />
+
+    <button type="submit">Guardar Cambios</button>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    const form = document.getElementById("formEditar");
+
+    let reservas = JSON.parse(localStorage.getItem("reservas")) || [];
+
+    if (!id || !reservas[id]) {
+      alert("Reserva no encontrada");
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("cliente").value = reservas[id].cliente;
+    document.getElementById("servicio").value = reservas[id].servicio;
+    document.getElementById("fecha").value = reservas[id].fecha;
+    document.getElementById("hora").value = reservas[id].hora;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      reservas[id] = {
+        cliente: document.getElementById("cliente").value.trim(),
+        servicio: document.getElementById("servicio").value.trim(),
+        fecha: document.getElementById("fecha").value,
+        hora: document.getElementById("hora").value
+      };
+
+      localStorage.setItem("reservas", JSON.stringify(reservas));
+
+      alert("Reserva actualizada.");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
